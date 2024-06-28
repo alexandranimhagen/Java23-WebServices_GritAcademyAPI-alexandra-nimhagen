@@ -1,15 +1,12 @@
 package com.example.GritAcademyAPI.model;
 
-import com.example.GritAcademyAPI.model.Students;
 import jakarta.persistence.*;
-
 import lombok.*;
 
 import java.util.HashSet;
 import java.util.Set;
 
-
-@Entity(name = "courses")
+@Entity
 @Table(name = "courses")
 @NoArgsConstructor
 @AllArgsConstructor
@@ -17,19 +14,17 @@ import java.util.Set;
 @Setter
 public class Courses {
 
-
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id")
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
     @Column(name = "name")
     private String name;
+
     @Column(name = "description")
     private String description;
 
-
-    @ManyToMany(mappedBy = "courses")
-
+    @ManyToMany(mappedBy = "courses", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Students> students = new HashSet<>();
 }

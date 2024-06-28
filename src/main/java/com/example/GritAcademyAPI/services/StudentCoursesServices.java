@@ -5,13 +5,15 @@ import com.example.GritAcademyAPI.repository.StudentCoursesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class StudentCoursesServices {
 
     @Autowired
-    StudentCoursesRepository studentCoursesRepository;
+    private StudentCoursesRepository studentCoursesRepository;
 
-    public Iterable<StudentCourses> getStudentCourses(){
+    public List<StudentCourses> getAllStudentCourses() {
         return studentCoursesRepository.findAll();
     }
 }
