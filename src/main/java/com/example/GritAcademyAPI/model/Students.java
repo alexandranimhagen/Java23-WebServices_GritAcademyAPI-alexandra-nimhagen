@@ -1,6 +1,5 @@
 package com.example.GritAcademyAPI.model;
 
-import com.example.GritAcademyAPI.model.Courses;
 import jakarta.persistence.*;
 import lombok.*;
 

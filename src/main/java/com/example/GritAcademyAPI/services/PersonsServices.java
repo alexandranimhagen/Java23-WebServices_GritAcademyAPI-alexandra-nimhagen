@@ -1,6 +1,5 @@
 package com.example.GritAcademyAPI.services;
 
-import com.example.GritAcademyAPI.model.Persons;
 import com.example.GritAcademyAPI.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -1,17 +1,33 @@
 package com.example.GritAcademyAPI.DataTransfers;
 
-import com.example.GritAcademyAPI.DataTransfers.StudentsDTO;
-import lombok.Data;
-
-import java.util.List;
-
-@Data
 public class CoursesDTO {
-
     private Long id;
     private String name;
-    private String description;
-    private String title;
-    List<StudentsDTO> students;
 
+    // Standardkonstruktorn
+    public CoursesDTO() {
+    }
+
+    // Konstruktor med parametrar
+    public CoursesDTO(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    // Getter och Setter metoder
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }
