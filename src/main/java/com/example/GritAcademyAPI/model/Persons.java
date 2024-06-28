@@ -1,4 +1,4 @@
-package com.example.gritacademyapi.model;
+package com.example.GritAcademyAPI.model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -6,7 +6,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class Person {
+public class Persons {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

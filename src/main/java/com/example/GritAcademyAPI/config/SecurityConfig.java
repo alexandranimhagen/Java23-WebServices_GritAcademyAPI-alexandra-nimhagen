@@ -1,7 +1,8 @@
-package com.example.gritacademyapi.config;
+package com.example.GritAcademyAPI.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
@@ -15,7 +16,7 @@ public class SecurityConfig {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/**").permitAll()
+                .antMatchers(HttpMethod.valueOf("/**")).permitAll()
                 .anyRequest().authenticated();
         return http.build();
     }
