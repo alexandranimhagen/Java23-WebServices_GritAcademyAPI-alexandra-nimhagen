@@ -9,3 +9,4 @@ public class GritAcademyAPI {
         SpringApplication.run(GritAcademyAPI.class, args);
     }
 }
+

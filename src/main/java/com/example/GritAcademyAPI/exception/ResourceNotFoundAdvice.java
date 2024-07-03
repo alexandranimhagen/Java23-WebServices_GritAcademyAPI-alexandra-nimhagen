@@ -1,4 +1,4 @@
-package com.example.GritAcademyAPI.controller;
+package com.example.GritAcademyAPI.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;

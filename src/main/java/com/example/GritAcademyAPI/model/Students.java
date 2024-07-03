@@ -1,9 +1,12 @@
 package com.example.GritAcademyAPI.model;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.AllArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -28,10 +31,12 @@ public class Students {
     @Column(name = "town")
     private String town;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(name = "student_courses",
-            joinColumns = @JoinColumn(name = "student_id"),
-            inverseJoinColumns = @JoinColumn(name = "course_id")
+    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @JoinTable(
+            name = "students_courses",
+            joinColumns = { @JoinColumn(name = "student_id") },
+            inverseJoinColumns = { @JoinColumn(name = "course_id") }
     )
-    private Set<Courses> courses = new HashSet<>();
+    @JsonManagedReference
+    private Set<Courses> courses;
 }

@@ -1,9 +1,12 @@
 package com.example.GritAcademyAPI.model;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.AllArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
-import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -25,6 +28,10 @@ public class Courses {
     @Column(name = "description")
     private String description;
 
-    @ManyToMany(mappedBy = "courses", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<Students> students = new HashSet<>();
+    @ManyToMany(mappedBy = "courses", fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @JsonBackReference
+    private Set<Students> students;
+
+    @OneToMany(mappedBy = "course", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<StudentsCourses> studentsCourses;
 }

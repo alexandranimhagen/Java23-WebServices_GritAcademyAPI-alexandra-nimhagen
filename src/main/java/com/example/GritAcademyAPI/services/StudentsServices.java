@@ -1,43 +1,72 @@
 package com.example.GritAcademyAPI.services;
 
 import com.example.GritAcademyAPI.DataTransfers.StudentsDTO;
+import com.example.GritAcademyAPI.exception.ResourceNotFoundException;
+import com.example.GritAcademyAPI.mappers.Mapper;
 import com.example.GritAcademyAPI.model.Students;
 import com.example.GritAcademyAPI.repository.StudentsRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class StudentsServices {
-    @Autowired
-    private StudentsRepository studentsRepository;
 
-    public List<Students> getAllStudents() {
-        return (List<Students>) studentsRepository.findAll();
+    private static final Logger logger = LoggerFactory.getLogger(StudentsServices.class);
+
+    private final StudentsRepository studentsRepository;
+
+    public StudentsServices(StudentsRepository studentsRepository) {
+        this.studentsRepository = studentsRepository;
     }
 
-    public Students createStudent(Students students) {
-        return studentsRepository.save(students);
+    public List<StudentsDTO> getAllStudents() {
+        List<Students> students = studentsRepository.findAll();
+        logger.info("Fetched {} students from database", students.size());
+        return students.stream()
+                .map(Mapper::toStudentsDTO)
+                .collect(Collectors.toList());
     }
 
-    public List<StudentsDTO> getStudents() {
-        return List.of();
+    public StudentsDTO getStudentById(Long id) {
+        Students student = studentsRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Student not found with id " + id));
+        return Mapper.toStudentsDTO(student);
     }
 
-    public List<StudentsDTO> getStudentById(Long id) {
-        return List.of();
+    public List<StudentsDTO> getStudentsByFname(String fname) {
+        return studentsRepository.findByFnameContainingIgnoreCase(fname).stream()
+                .map(Mapper::toStudentsDTO)
+                .collect(Collectors.toList());
     }
 
-    public List<StudentsDTO> getStudentByLname(String lname) {
-        return List.of();
+    public List<StudentsDTO> getStudentsByLname(String lname) {
+        return studentsRepository.findByLnameContainingIgnoreCase(lname).stream()
+                .map(Mapper::toStudentsDTO)
+                .collect(Collectors.toList());
     }
 
-    public List<StudentsDTO> getStudentByFname(String fname) {
-        return List.of();
+    public List<StudentsDTO> getStudentsByTown(String town) {
+        return studentsRepository.findByTownContainingIgnoreCase(town).stream()
+                .map(Mapper::toStudentsDTO)
+                .collect(Collectors.toList());
     }
 
-    public List<StudentsDTO> getStudentByTown(String town) {
-        return List.of();
+    public StudentsDTO createStudent(StudentsDTO studentsDTO) {
+        Students student = new Students();
+        student.setFname(studentsDTO.getFname());
+        student.setLname(studentsDTO.getLname());
+        student.setTown(studentsDTO.getTown());
+        Students savedStudent = studentsRepository.save(student);
+        return Mapper.toStudentsDTO(savedStudent);
+    }
+
+    public void deleteStudent(Long id) {
+        Students student = studentsRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Student not found with id " + id));
+        studentsRepository.delete(student);
     }
 }
